@@ -4,13 +4,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 @Entity
 @Table(name = "cart_item")
 public class CartItem {
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     //@JsonBackReference
@@ -22,8 +23,8 @@ public class CartItem {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "price", nullable = false)
-    private Double price;
+    @Column(name = "price", precision = 5, scale = 2)
+    private BigDecimal price;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -36,6 +37,10 @@ public class CartItem {
     @ColumnDefault("NULL::timestamp without time zone")
     @Column(name = "updated_at")
     private Instant updatedAt;
+
+    public CartItem() {
+        this.createdAt = Instant.now();
+    }
 
     public Integer getId() {
         return id;
@@ -61,11 +66,11 @@ public class CartItem {
         this.quantity = quantity;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

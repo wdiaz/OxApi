@@ -1,5 +1,6 @@
 package com.commerce.api.controller;
 
+import com.commerce.api.dto.cart.AddCartItemRequest;
 import com.commerce.api.entity.Cart;
 import com.commerce.api.entity.CartItem;
 import com.commerce.api.service.CartService;
@@ -44,7 +45,12 @@ public class CartController {
     }
 
     @PostMapping("/add-item")
-    public Cart addProductToCart(Long productId, Long merchantId) {
-        return cartService.createCart(productId, merchantId);
+    public Cart addProductToCart(
+            @RequestBody AddCartItemRequest request
+    ) {
+        String uuid = request.getUuid();
+        Long productId = request.getProductId();
+        Integer quantity = request.getQuantity();
+        return cartService.addCartItem(uuid, productId, quantity);
     }
 }
