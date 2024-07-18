@@ -26,7 +26,7 @@ public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @Column(unique = true, nullable = false)
     private String uuid;
@@ -54,7 +54,7 @@ public class Cart {
         this.createdAt = LocalDateTime.now();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

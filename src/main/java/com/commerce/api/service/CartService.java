@@ -97,8 +97,10 @@ public class CartService {
                     .findFirst();
             CartItem cartItem = existingCartItem.get();
             cartItem.setQuantity(cartItem.getQuantity() + quantity);
+            cartItem.setCart(cart);
             cart.addCartItem(cartItem);
             cartItem.setUpdatedAt(Instant.now());
+
         }
         cartRepository.save(cart);
         return cart;
