@@ -47,8 +47,10 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "merchant_id", nullable = false)
+    /*
     @JsonBackReference // This will prevent infinite recursion during serialization
     @JsonIgnore // This will make the property not discoverable by default
+     */
     private Merchant merchant;
 
     public Integer getId() {
