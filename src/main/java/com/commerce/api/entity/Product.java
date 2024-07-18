@@ -1,10 +1,11 @@
 package com.commerce.api.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
 
@@ -39,6 +40,12 @@ public class Product {
     @ColumnDefault("NULL::character varying")
     @Column(name = "main_image")
     private String mainImage;
+
+    @ManyToOne
+    @JoinColumn(name = "merchant_id", nullable = false)
+    @JsonBackReference // This will prevent infinite recursion during serialization
+    @JsonIgnore // This will make the property not discoverable by default
+    private Merchant merchant;
 
     public Integer getId() {
         return id;
@@ -104,4 +111,11 @@ public class Product {
         this.mainImage = mainImage;
     }
 
+    public Merchant getMerchant() {
+        return merchant;
+    }
+
+    public void setMerchant(Merchant merchant) {
+        this.merchant = merchant;
+    }
 }

@@ -1,10 +1,9 @@
 package com.commerce.api.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -28,6 +27,12 @@ public class Merchant {
 
     @Column(name = "slug", nullable = false)
     private String slug;
+
+    @OneToMany(mappedBy = "merchant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> products = new ArrayList<>();
+
+    public Merchant() {
+    }
 
     public Integer getId() {
         return id;
@@ -75,6 +80,20 @@ public class Merchant {
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public void addProduct(Product product) {
+        products.add(product);
+        product.setMerchant(this);
+    }
+
+    public void removeProduct(Product product) {
+        products.remove(product);
+        product.setMerchant(null);
     }
 
 }
