@@ -42,4 +42,16 @@ public class CartService {
         cartRepository.save(cart);
         return cart;
     }
+
+    public Cart findByUuid(String uuid) {
+        return cartRepository.findByUuid(uuid).orElseThrow(() -> new RuntimeException("Cart not found"));
+    }
+
+    public Cart findById(Long id) {
+        return cartRepository.findById(id).orElseThrow(() -> new RuntimeException("Cart not found"));
+    }
+
+    /*public Cart findItemsByCartUid(String uuid) {
+
+    }*/
 }
