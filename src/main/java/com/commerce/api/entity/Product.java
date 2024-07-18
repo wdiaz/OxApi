@@ -7,6 +7,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 @Entity
@@ -40,6 +41,9 @@ public class Product {
     @ColumnDefault("NULL::character varying")
     @Column(name = "main_image")
     private String mainImage;
+
+    @Column(name = "price", precision = 5, scale = 2)
+    private BigDecimal price;
 
     @ManyToOne
     @JoinColumn(name = "merchant_id", nullable = false)
@@ -109,6 +113,14 @@ public class Product {
 
     public void setMainImage(String mainImage) {
         this.mainImage = mainImage;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public Merchant getMerchant() {
