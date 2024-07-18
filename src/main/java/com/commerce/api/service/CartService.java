@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -97,6 +98,7 @@ public class CartService {
             CartItem cartItem = existingCartItem.get();
             cartItem.setQuantity(cartItem.getQuantity() + quantity);
             cart.addCartItem(cartItem);
+            cartItem.setUpdatedAt(Instant.now());
         }
         cartRepository.save(cart);
         return cart;
