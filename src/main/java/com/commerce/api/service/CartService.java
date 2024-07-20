@@ -97,18 +97,53 @@ public class CartService {
                 .filter(item -> item.getProduct().getId().equals(productId))
                 .findFirst();
 
-        cart.getCartItems().removeIf(item -> item.getProduct().getId().equals(productId));
+        //cart.getCartItems().removeIf(item -> item.getProduct().getId().equals(productId));
         if (existingCartItem.isPresent()) {
-            CartItem cartItem = existingCartItem.get();
-            cart.getCartItems().remove(cartItem);
-            cartRepository.save(cart);
+            return getStringObjectMap(cart, existingCartItem);
+        } else {
+            throw new NoSuchElementException("Item not found in cart");
+        }
+    }
 
+    public Map<String, Object> updateCartItemQuantity(String cartUuid, Long productId, Integer quantity) {
+        Cart cart = findByUuid(cartUuid);
+        if(null == cart) {
+            throw new NoSuchElementException("Invalid Cart");
+        }
+        if (cart.getCartItems().isEmpty()) {
+            throw new NoSuchElementException("Item not found in cart");
+        }
+
+        Optional<CartItem> existingCartItem = cart.getCartItems().stream()
+                .filter(item -> item.getProduct().getId().equals(productId))
+                .findFirst();
+
+        if (existingCartItem.isPresent()) {
+            int currentQuantity = existingCartItem.get().getQuantity();
+            if(quantity == 0) {
+                return getStringObjectMap(cart, existingCartItem);
+            }
+            int newQuantity = currentQuantity + quantity;
+            existingCartItem.get().setQuantity(newQuantity);
+            existingCartItem.get().setUpdatedAt(Instant.now());
+
+            cartRepository.save(cart);
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Item deleted successfully");
+            response.put("message", "Item updated successfully");
             response.put("cart", cart);
             return response;
         } else {
             throw new NoSuchElementException("Item not found in cart");
         }
+    }
+
+    private Map<String, Object> getStringObjectMap(Cart cart, Optional<CartItem> existingCartItem) {
+        CartItem cartItem = existingCartItem.get();
+        cart.getCartItems().remove(cartItem);
+        cartRepository.save(cart);
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Item deleted successfully");
+        response.put("cart", cart);
+        return response;
     }
 }

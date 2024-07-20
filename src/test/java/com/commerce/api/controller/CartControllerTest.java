@@ -36,7 +36,7 @@ class CartControllerTest {
     @BeforeEach
     public void setup() throws Exception {
         // Add the product to the cart before running delete operation
-        String addItemJson = "{ \"uuid\": \"" + cartUuid + "\", \"productId\": \"" + productId + "\", \"quantity\": \"1\" }";
+        String addItemJson = "{ \"uuid\": \"" + cartUuid + "\", \"productId\": \"" + productId + "\", \"quantity\": \"3\" }";
         mockMvc.perform(post("/api/carts/add-item")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(addItemJson))
