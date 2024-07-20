@@ -17,6 +17,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/carts")
+@CrossOrigin(origins = "https://ox.local")
 public class CartController {
 
     private CartService cartService;
