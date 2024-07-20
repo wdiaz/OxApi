@@ -8,15 +8,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/carts")
 public class CartController {
 
     private CartService cartService;
+
     public CartController(CartService cartService) {
         this.cartService = cartService;
     }
@@ -27,7 +29,7 @@ public class CartController {
         return ResponseEntity.ok(cart);
     }
 
-    @GetMapping("/{uuid}/uuid")
+    @GetMapping("/{uuid}/cart")
     public Cart getCartByUuid(@PathVariable String uuid) {
         return cartService.findByUuid(uuid);
     }
@@ -36,12 +38,10 @@ public class CartController {
     public ResponseEntity<List<CartItem>> getItemsByCartUuid(@PathVariable String uuid) {
         Cart cart = cartService.findByUuid(uuid);
         List<CartItem> cartItems = cart.getCartItems();
-        if (cartItems.isEmpty() ) {
+        if (cartItems.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return new ResponseEntity<>(cartItems, HttpStatus.OK);
-
-
     }
 
     @PostMapping("/add-item")
@@ -52,5 +52,15 @@ public class CartController {
         Long productId = request.getProductId();
         Integer quantity = request.getQuantity();
         return cartService.addCartItem(uuid, productId, quantity);
+    }
+
+    @DeleteMapping("/{uuid}/items/{productId}")
+    public ResponseEntity<Map<String, Object>> deleteCartItem(@PathVariable String uuid, @PathVariable Long productId) {
+        try {
+            Map<String, Object> response = cartService.deleteCartItem(uuid, productId);
+            return ResponseEntity.ok(response);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", e.getMessage()));
+        }
     }
 }
