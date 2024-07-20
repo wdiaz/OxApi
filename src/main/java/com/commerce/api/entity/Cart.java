@@ -1,14 +1,11 @@
 package com.commerce.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "cart")
@@ -34,7 +31,6 @@ public class Cart {
     @ManyToOne
     private User cartUser;
 
-    @JsonBackReference
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();
 
@@ -48,9 +44,7 @@ public class Cart {
     private LocalDateTime createdAt;
 
     public Cart() {
-        this.uuid = UUID.randomUUID().toString();
-        this.session = UUID.randomUUID().toString();
-        this.status = ACTIVE;
+        this.status = Cart.CREATED;
         this.createdAt = LocalDateTime.now();
     }
 
