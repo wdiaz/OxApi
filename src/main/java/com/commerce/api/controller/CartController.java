@@ -3,7 +3,7 @@ package com.commerce.api.controller;
 import com.commerce.api.dto.cart.AddCartItemRequest;
 import com.commerce.api.entity.Cart;
 import com.commerce.api.entity.CartItem;
-import com.commerce.api.service.CartService;
+import com.commerce.api.service.cart.CartService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -16,6 +17,7 @@ public class User {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @Email
     @Column(name = "email", nullable = false, length = 180)
     private String email;
 

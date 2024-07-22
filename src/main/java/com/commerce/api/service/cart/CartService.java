@@ -1,11 +1,10 @@
-package com.commerce.api.service;
+package com.commerce.api.service.cart;
 
 import com.commerce.api.entity.Cart;
 import com.commerce.api.entity.CartItem;
 import com.commerce.api.entity.Product;
 import com.commerce.api.repository.CartRepository;
 import com.commerce.api.repository.ProductRepository;
-import com.commerce.api.service.cart.CartFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,6 +1,6 @@
 package com.commerce.api.controller;
 
-import com.commerce.api.service.CartService;
+import com.commerce.api.service.cart.CartService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
